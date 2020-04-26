@@ -1,7 +1,7 @@
 package edu.ti.collections.list.linked;
 
 public class LinkedList<T> {
-    private class Node {
+    public class Node {
         T payload;
         Node next = null;
 
@@ -26,8 +26,9 @@ public class LinkedList<T> {
         }
     }
 
-    private Node headNode = null;
-    private Node endNode = null;
+    Node headNode = null;
+    Node endNode = null;
+
 
     public LinkedList() {
         // nothing
@@ -37,23 +38,34 @@ public class LinkedList<T> {
         headNode = new Node(payload);
         endNode = headNode;
     }
-    public T getEndNodePayLoad(){
-        return endNode.payload;
-    }
-    public T getHeadNodePayLoad(){
-        return headNode.payload;
-    }
+
 
     public boolean isEmpty() {
         return (headNode == null);
     }
-
+    Node end() {
+        return lastNode(headNode);
+        /*Node endNode = headNode;
+        while (endNode.getNext() != null) {
+            endNode = endNode.getNext();
+        }
+        return endNode;*/
+    }
+    private Node lastNode(Node node){
+        Node lastNode = (node == null)? null: (node.next == null)? node: lastNode(node.next);
+        return lastNode;
+    }
 
     public int size() {
-        int size = 0;
+        return sizeHelper(headNode);
+        /*int size = 0;
         for (Node start = headNode; start != null; start = start.next) {
             size += 1;
         }
+        return size;*/
+    }
+    int sizeHelper(Node node){
+        int size = (node == null)? 0: 1 + sizeHelper(node.next);
         return size;
     }
 
@@ -80,13 +92,18 @@ public class LinkedList<T> {
     public T get(int n) {
         T requestedObject = null;
         if (n < size()) {
-            Node requestedNode = headNode;
+            requestedObject = getRequestObject(n, headNode).getPayload();
+            /*Node requestedNode = headNode;
             while (n-- > 0) {
                 requestedNode = requestedNode.getNext();
             }
-            requestedObject = requestedNode.getPayload();
+            requestedObject = requestedNode.getPayload();*/
         }
         return requestedObject;
+    }
+    private Node getRequestObject(int n, Node node){
+        Node requestedNode = (n == 0)? node: getRequestObject(n-1, node.getNext());
+        return requestedNode;
     }
 
     public T remove(int n) {
@@ -110,6 +127,43 @@ public class LinkedList<T> {
             requestedObject = requestedNode.getPayload();
         }
         return requestedObject;
+    }
+    /*public T remove(int n){
+        T requestedObject = null;
+        if (n < size()){
+            Node beforeRequestedNode = null;
+            Node requestedNode = headNode;
+            if (n > 0){
+                remove(n-1);
+                beforeRequestedNode = requestedNode;
+                requestedNode = requestedNode.getNext();
+                System.out.println("beforeRequestedNode" + beforeRequestedNode);
+                System.out.println("requestedNode " + requestedNode);
+            }
+            if (beforeRequestedNode != null) {
+                beforeRequestedNode.setNext(requestedNode.getNext());
+                if (beforeRequestedNode.getNext() == null){
+                    endNode = beforeRequestedNode;
+                }
+            } else {
+                headNode = requestedNode.getNext();
+                endNode = headNode;
+            }
+            requestedObject = requestedNode.getPayload();
+        }
+        return requestedObject;
+
+    }*/
+
+    public static void main(String[] args) {
+        Integer i12 = new Integer(12);
+        Integer j37 = new Integer(37);
+        Integer k34 = new Integer(34);
+        LinkedList linkedList = new LinkedList<>(i12);
+        linkedList.insert(j37);
+        linkedList.insert(k34);
+        linkedList.remove(2);
+
     }
 
     public T remove(T object) {

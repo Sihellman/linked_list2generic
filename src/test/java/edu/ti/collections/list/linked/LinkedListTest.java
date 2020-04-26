@@ -12,12 +12,64 @@ public class LinkedListTest {
         LinkedList<Integer> linkedList = new LinkedList<>();
         assertTrue(linkedList.isEmpty());
     }
+
     @Test
     public void testAppendToEmpty(){
         LinkedList<Integer> linkedList = new LinkedList<>();
         linkedList.append(new Integer(4));
         assertFalse(linkedList.isEmpty());
         assertEquals(1, linkedList.size());
+    }
+   @Test
+   public void testEndNodeIsNullInEmptyList(){
+       LinkedList<Integer> linkedList = new LinkedList<>();
+       assertNull(linkedList.endNode);
+   }
+    @Test
+    public void testEndNodeIsHeadIfInsertToEmptyList(){
+        Integer i12 = new Integer(12);
+        LinkedList linkedList = new LinkedList();
+        linkedList.insert(i12);
+        assertEquals(linkedList.endNode, linkedList.headNode);
+
+    }
+    @Test
+    public void testEndNodeInAppend(){
+        LinkedList<Integer> linkedList = new LinkedList<>();
+        linkedList.append(new Integer(4));
+        assertEquals(linkedList.endNode, linkedList.end());
+        Integer two = new Integer(2);
+        linkedList.append(two);
+        assertEquals(linkedList.endNode, linkedList.end());
+    }
+    @Test
+    public void EndNodeInDeleteByPosition(){
+        Integer i12 = new Integer(12);
+        Integer j37 = new Integer(37);
+        Integer k34 = new Integer(34);
+        LinkedList linkedList = new LinkedList<>(i12);
+        linkedList.insert(j37);
+        linkedList.insert(k34);
+        linkedList.remove(2);
+
+        assertEquals(linkedList.endNode.payload, linkedList.end().payload);
+
+        linkedList.remove(1);
+        assertEquals(linkedList.endNode, linkedList.end());
+    }
+    @Test
+    public void testEndNodeInDeleteByObject(){
+        Integer i12 = new Integer(12);
+        Integer j37 = new Integer(37);
+        Integer k34 = new Integer(34);
+        LinkedList linkedList = new LinkedList<>(i12);
+        linkedList.insert(j37);
+        linkedList.insert(k34);
+        linkedList.remove(i12);
+
+        assertEquals(linkedList.endNode, linkedList.end());
+        linkedList.remove(j37);
+        assertEquals(linkedList.endNode, linkedList.end());
     }
 
     @Test
@@ -71,14 +123,7 @@ public class LinkedListTest {
         Double second = linkedList.get(1);
         assertEquals(i12, second);
     }
-    @Test
-    public void testEndNodeIsHeadIfInsertToEmptyList(){
-        Integer i12 = new Integer(12);
-        LinkedList linkedList = new LinkedList();
-        linkedList.insert(i12);
-        assertEquals(i12, linkedList.getHeadNodePayLoad());
-        assertEquals(i12, linkedList.getEndNodePayLoad());
-    }
+
 
     @Test
     public void testAppendTwoObjectsCorrectOrder() {
@@ -90,14 +135,6 @@ public class LinkedListTest {
         assertEquals(i12, first);
         Integer second = linkedList.get(1);
         assertEquals(j37, second);
-    }
-    @Test
-    public void testEndNodeInAppend(){
-        LinkedList<Integer> linkedList = new LinkedList<>();
-        linkedList.append(new Integer(4));
-        assertEquals(linkedList.get(0), linkedList.getEndNodePayLoad());
-        linkedList.append(new Integer(2));
-        assertEquals(linkedList.get(1), linkedList.getEndNodePayLoad());
     }
 
     @Test
@@ -142,21 +179,7 @@ public class LinkedListTest {
         assertEquals(2, linkedList.size());
         assertEquals(k34, linkedList.get(0));
     }
-    @Test
-    public void EndNodeInDeleteByPosition(){
-        Integer i12 = new Integer(12);
-        Integer j37 = new Integer(37);
-        Integer k34 = new Integer(34);
-        LinkedList linkedList = new LinkedList<>(i12);
-        linkedList.insert(j37);
-        linkedList.insert(k34);
-        linkedList.remove(2);
 
-        assertEquals(j37, linkedList.getEndNodePayLoad());
-        assertEquals(k34, linkedList.getHeadNodePayLoad());
-        linkedList.remove(1);
-        assertEquals(linkedList.getEndNodePayLoad(), linkedList.getHeadNodePayLoad());
-    }
 
     @Test
     public void testDeleteCorrectElementByObject() {
@@ -169,19 +192,5 @@ public class LinkedListTest {
         assertEquals(1, linkedList.size());
         assertEquals(j37, linkedList.get(0));
     }
-    @Test
-    public void testEndNodeInDeleteByObject(){
-        Integer i12 = new Integer(12);
-        Integer j37 = new Integer(37);
-        Integer k34 = new Integer(34);
-        LinkedList linkedList = new LinkedList<>(i12);
-        linkedList.insert(j37);
-        linkedList.insert(k34);
-        linkedList.remove(i12);
 
-        assertEquals(j37, linkedList.getEndNodePayLoad());
-        assertEquals(k34, linkedList.getHeadNodePayLoad());
-        linkedList.remove(j37);
-        assertEquals(linkedList.getEndNodePayLoad(), linkedList.getHeadNodePayLoad());
-    }
 }
